@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'providers/stock_provider.dart';
+import 'providers/trial_provider.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/license_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => StockProvider(prefs)),
+        ChangeNotifierProvider(create: (_) => TrialProvider(prefs)),
+      ],
+      child: const MaduraStockApp(),
+    ),
+  );
+}
+
+class MaduraStockApp extends StatelessWidget {
+  const MaduraStockApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Audit Toko Madura',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF0A0A0A),
+        primaryColor: const Color(0xFFE53935),
+        cardTheme: const CardThemeData(
+          color: Color(0xFF161616),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+          elevation: 0,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: const Color(0xFF0A0A0A),
+          elevation: 0,
+          centerTitle: true,
+          titleTextStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 20,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+            letterSpacing: 1.2,
+          ),
+        ),
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFFE53935),
+          secondary: Color(0xFFFF5252),
+          surface: Color(0xFF161616),
+          onSurface: Colors.white,
+          onPrimary: Colors.white,
+        ),
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(
+          ThemeData.dark().textTheme,
+        ).apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        ),
+      ),
+      home: Consumer<TrialProvider>(
+        builder: (context, trial, child) {
+          if (trial.isLoading) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+          if (trial.isLicensed || trial.isTrialActive) {
+            return const DashboardScreen();
+          }
+          return const LicenseScreen();
+        },
+      ),
+    );
+  }
+}
