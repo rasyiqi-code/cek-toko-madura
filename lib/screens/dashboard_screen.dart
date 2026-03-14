@@ -47,13 +47,17 @@ class DashboardScreen extends StatelessWidget {
                   ),
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: const Color(0xFF262626),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               );
             }
           },
           icon: Icon(
-            trial.isLicensed ? Icons.verified_rounded : Icons.help_outline_rounded,
+            trial.isLicensed
+                ? Icons.verified_rounded
+                : Icons.help_outline_rounded,
             color: trial.isLicensed ? Colors.greenAccent : Colors.white54,
             size: 20,
           ),
@@ -1310,7 +1314,7 @@ class DashboardScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       const Text(
-                        '• Fitur ini adalah layanan tambahan berbayar.\n• Admin akan memberikan Link Script & Link Sheet.\n• Setup dilakukan sepenuhnya oleh tim support.\n• Hubungi Admin untuk minta link script.',
+                        '• Fitur Gratis bagi user pro.\n• Admin akan memberikan Link Script & Link Sheet.\n• Setup dilakukan sepenuhnya oleh tim support.\n• Hubungi Admin untuk minta link script.',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 11,
