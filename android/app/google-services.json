@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "205633551683",
+    "project_id": "cek-toko-madura",
+    "storage_bucket": "cek-toko-madura.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205633551683:android:fbddb25028d9f415bac3f6",
+        "android_client_info": {
+          "package_name": "com.crediblemark.cektokomadura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205633551683-epgqmg65q3lc5skrv5mdcqbvtf75he62.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2s-H4lyGptb9Bg17PiC2hW-3BZgxGRwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205633551683-epgqmg65q3lc5skrv5mdcqbvtf75he62.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "205633551683-ar6ssai73mcd3qos452ka189c5p7jml5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.crediblemark.cektokomadura"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

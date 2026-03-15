@@ -1,0 +1,27 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "cek-toko-madura",
+          "configurations": {
+            "android": "1:205633551683:android:fbddb25028d9f415bac3f6",
+            "ios": "1:205633551683:ios:a313e565b0d9b3c2bac3f6",
+            "web": "1:205633551683:web:a5a2c8dfc9b15623bac3f6"
+          }
+        }
+      },
+      "android": {
+        "default": {
+          "projectId": "cek-toko-madura",
+          "appId": "1:205633551683:android:fbddb25028d9f415bac3f6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      }
+    }
+  }
+}

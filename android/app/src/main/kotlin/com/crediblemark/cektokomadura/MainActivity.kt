@@ -1,4 +1,4 @@
-package com.example.cek_toko_madura
+package com.crediblemark.cektokomadura
 
 import io.flutter.embedding.android.FlutterActivity
 

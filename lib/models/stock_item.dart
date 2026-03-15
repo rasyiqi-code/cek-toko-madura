@@ -4,6 +4,7 @@ class StockItem {
   final String name;
   double modalPrice;
   int currentStock;
+  final bool isDemo;
 
   StockItem({
     required this.id,
@@ -11,6 +12,7 @@ class StockItem {
     required this.name,
     required this.modalPrice,
     required this.currentStock,
+    this.isDemo = false,
   });
 
   Map<String, dynamic> toJson() => {
@@ -19,6 +21,7 @@ class StockItem {
         'name': name,
         'modalPrice': modalPrice,
         'currentStock': currentStock,
+        'isDemo': isDemo,
       };
 
   factory StockItem.fromJson(Map<String, dynamic> json) => StockItem(
@@ -27,5 +30,6 @@ class StockItem {
         name: json['name'],
         modalPrice: json['modalPrice'].toDouble(),
         currentStock: json['currentStock'],
+        isDemo: json['isDemo'] ?? false,
       );
 }

@@ -38,7 +38,15 @@ This application implements a specific handover logic common in Indonesian "Toko
    ```bash
    flutter pub get
    ```
-3. Run the application:
+3. **Firebase Configuration** (Required):
+   Since `lib/firebase_options.dart` is ignored for security, you must regenerate it:
+   - Install [FlutterFire CLI](https://firebase.google.com/docs/flutter/setup).
+   - Run:
+     ```bash
+     flutterfire configure
+     ```
+   - Follow the prompts to select your Firebase project.
+4. Run the application:
    ```bash
    flutter run -d chrome # For Web
    # OR
