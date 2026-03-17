@@ -136,7 +136,7 @@ extension StockProviderExcel on StockProvider {
     ));
   }
 
-  Future<String?> importFromExcel() async {
+  Future<String?> importFromExcel({bool clearExisting = false}) async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['xlsx'],
@@ -155,11 +155,15 @@ extension StockProviderExcel on StockProvider {
       return 'Gagal membaca file';
     }
     
-    return _processImport(bytes);
+    return _processImport(bytes, clearExisting: clearExisting);
   }
 
-  Future<String?> _processImport(Uint8List bytes) async {
+  Future<String?> _processImport(Uint8List bytes, {bool clearExisting = false}) async {
     final excel = Excel.decodeBytes(bytes);
+
+    if (clearExisting) {
+      _items.clear();
+    }
 
     int count = 0;
     for (var table in excel.tables.keys) {
@@ -170,8 +174,8 @@ extension StockProviderExcel on StockProvider {
         final row = rows[i];
         if (row.length < 3) continue;
 
-        final category = row[0]?.value?.toString() ?? '';
-        final name = row[1]?.value?.toString() ?? '';
+        final category = row[0]?.value?.toString().trim().toUpperCase() ?? '';
+        final name = row[1]?.value?.toString().trim().toUpperCase() ?? '';
         final price = double.tryParse(row[2]?.value?.toString() ?? '0') ?? 0.0;
         final stock = int.tryParse(row[3]?.value?.toString() ?? '0') ?? 0;
 
@@ -182,17 +186,17 @@ extension StockProviderExcel on StockProvider {
           final existing = _items[existingIdx];
           _items[existingIdx] = StockItem(
             id: existing.id,
-            name: name.toUpperCase(),
-            category: category.toUpperCase(),
+            name: name,
+            category: category.isEmpty ? existing.category : category,
             modalPrice: price,
             currentStock: stock,
             isDemo: existing.isDemo,
           );
         } else {
           _items.add(StockItem(
-            id: DateTime.now().millisecondsSinceEpoch.toString() + _items.length.toString(),
+            id: 'PROD_${DateTime.now().millisecondsSinceEpoch}_${count}_${name.hashCode.abs()}',
             name: name,
-            category: category,
+            category: category.isEmpty ? 'LAIN-LAIN' : category,
             modalPrice: price,
             currentStock: stock,
           ));

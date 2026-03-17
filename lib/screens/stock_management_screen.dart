@@ -276,11 +276,42 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
                 title: 'Import Data',
                 subtitle: 'Upload file Excel yang sudah diisi',
                 onTap: () async {
+                  final messenger = ScaffoldMessenger.of(context);
                   Navigator.pop(context);
-                  final scaffoldMessenger = ScaffoldMessenger.of(context);
-                  final res = await provider.importFromExcel();
+                  
+                  final choice = await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      backgroundColor: const Color(0xFF0D0D0D),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      title: const Text('OPSI IMPORT', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      content: const Text(
+                        'Pilih metode import:\n\n'
+                        '• TAMBAH/UPDATE: Menggabungkan data baru dengan data lama.\n'
+                        '• FRESH IMPORT: MENGHAPUS SEMUA data lama lalu ganti dengan data baru.',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          child: const Text('TAMBAH/UPDATE', style: TextStyle(color: Colors.blue)),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: const Text('FRESH IMPORT', style: TextStyle(color: Colors.red)),
+                        ),
+                      ],
+                    ),
+                  );
+
+                  if (choice == null || !mounted) return;
+
+                  final res = await provider.importFromExcel(clearExisting: choice);
                   if (res != null) {
-                    scaffoldMessenger.showSnackBar(SnackBar(content: Text(res), backgroundColor: Colors.green));
+                    messenger.showSnackBar(SnackBar(
+                      content: Text(res), 
+                      backgroundColor: choice ? Colors.red : Colors.green,
+                    ));
                   }
                 },
               ),

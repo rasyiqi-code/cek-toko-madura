@@ -9,6 +9,7 @@ import '../providers/stock_provider.dart';
 import '../widgets/audit/audit_widgets.dart';
 import '../widgets/audit/audit_summary_sheet.dart';
 import '../widgets/audit/audit_console_drawer.dart';
+import '../widgets/audit/audit_history_sheet.dart';
 
 class AuditSessionPage extends StatefulWidget {
   final AppUser toKeeper;
@@ -74,17 +75,24 @@ class _AuditSessionPageState extends State<AuditSessionPage> {
         ),
         centerTitle: selectedCategory == null,
         leading: selectedCategory != null
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70),
-              onPressed: () => setState(() {
-                selectedCategory = null;
-                currentCardIndex = 0;
-              }),
-            )
-          : IconButton(
-              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70),
-              onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
-            ),
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70),
+                onPressed: () => setState(() {
+                  selectedCategory = null;
+                  currentCardIndex = 0;
+                }),
+              )
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded, color: Colors.white70),
+                onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+              ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history_rounded, color: Colors.blue),
+            onPressed: () => _showSessionHistory(),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: selectedCategory == null
           ? _buildCategoryList(categories, checkedCount)
@@ -245,6 +253,18 @@ class _AuditSessionPageState extends State<AuditSessionPage> {
         ),
         _buildActionButtons(filtered, provider),
       ],
+    );
+  }
+
+  void _showSessionHistory() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => AuditHistorySheet(
+        auditData: auditData,
+        results: results,
+      ),
     );
   }
 

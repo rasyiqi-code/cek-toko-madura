@@ -2,8 +2,11 @@ part of '../stock_provider.dart';
 
 extension StockProviderAudit on StockProvider {
   void commitAudit(List<StockItem> audited, Map<String, int?> auditResults, String toId, double def, double sur, List<String> log) {
-    final fromName = _users.firstWhere((u) => u.id == activeKeeperId).name;
-    final toName = _users.firstWhere((u) => u.id == toId).name;
+    final fromUser = _users.firstWhere((u) => u.id == activeKeeperId, orElse: () => AppUser(id: 'unknown', name: 'Unknown', role: UserRole.penjaga));
+    final toUser = _users.firstWhere((u) => u.id == toId, orElse: () => AppUser(id: 'unknown', name: 'Unknown', role: UserRole.penjaga));
+    
+    final fromName = fromUser.name;
+    final toName = toUser.name;
 
     List<Map<String, dynamic>> auditedItemsLog = [];
 

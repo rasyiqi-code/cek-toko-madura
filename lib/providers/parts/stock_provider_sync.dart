@@ -140,7 +140,7 @@ extension StockProviderSync on StockProvider {
 
       isSyncing = false;
       refresh();
-      return response.statusCode == 200 && (response.body.contains("Success") || response.statusCode == 302);
+      return response.statusCode == 200 || response.statusCode == 302;
     } catch (e) {
       isSyncing = false;
       refresh();
@@ -149,7 +149,7 @@ extension StockProviderSync on StockProvider {
   }
 
   Future<void> syncWithFirebase() async {
-    if (storeId == null) return;
+    if (storeId == null || isFirebaseSyncing) return;
 
     isFirebaseSyncing = true;
     refresh();
