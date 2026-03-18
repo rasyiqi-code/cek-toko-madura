@@ -13,6 +13,7 @@ import '../models/app_user.dart';
 import 'staff_management_screen.dart';
 import 'login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../widgets/dashboard/sync_settings_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -38,6 +39,25 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         actions: [
+          if (provider.currentUser?.id == provider.storeId)
+            IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: const Color(0xFF161616),
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                  ),
+                  builder: (context) => const SyncSettingsSheet(),
+                );
+              },
+              icon: const Icon(
+                Icons.cloud_sync_rounded,
+                color: Colors.white24,
+                size: 20,
+              ),
+            ),
           IconButton(
             onPressed: () => _handleLogout(context, provider),
             icon: const Icon(

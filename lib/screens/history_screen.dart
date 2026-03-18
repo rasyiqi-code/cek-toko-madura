@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/stock_provider.dart';
 import '../models/app_user.dart';
 import 'report_detail_screen.dart';
+import 'package:cek_toko_madura/widgets/dashboard/sync_settings_sheet.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
@@ -25,6 +26,28 @@ class HistoryScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          Consumer<StockProvider>(
+            builder: (context, provider, _) {
+              if (provider.currentUser?.id != provider.storeId) return const SizedBox.shrink();
+              return IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: const Color(0xFF161616),
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+                    ),
+                    builder: (context) => const SyncSettingsSheet(),
+                  );
+                },
+                icon: const Icon(Icons.cloud_sync_rounded, color: Colors.white70),
+              );
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: Consumer<StockProvider>(
         builder: (context, provider, _) => provider.reports.isEmpty
